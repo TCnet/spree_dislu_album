@@ -18,10 +18,10 @@ module Spree
 
       def create
         @dislu_album = Spree::DisluAlbum.create(album_params)
-        img  = album_params[:img]
+        photos  = album_params[:photos]
         if @dislu_album.save
-           if img
-             @dislu_album.img.attach(img)
+           if photos
+             @dislu_album.photos.attach(photos)
            end
           #@dislu_album.img.attach(im g)
 
@@ -35,7 +35,7 @@ module Spree
         
       end
 
-      
+
 
      
 
