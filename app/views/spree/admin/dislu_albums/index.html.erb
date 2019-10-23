@@ -1,0 +1,68 @@
+<% content_for :page_title do %>
+  <%= Spree.t('form.dislu_album.heading') %>
+<% end %>
+
+<div class="row">
+<div class="col-sm-6">
+
+<%= form_for([:admin, @dislu_album], html: { multipart: true }) do |f| %>
+ 
+  <fieldset class="no-border-top">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+
+  <%= f.field_container :img, class: ['form-group'] do  %>
+    <%= f.label :img, Spree.t('form.dislu_album.new.img') %>
+    <%= f.file_field :img %>
+  <% end %>
+  <div data-hook="buttons" class="form-actions">
+    <%= button Spree.t('actions.create'), 'ok', 'submit', {class: 'btn-success'} %>
+  </div>
+  </fieldset>
+<% end %>
+</div>
+</div>
+
+<table class="table">
+  <colgroup>
+    <col style="width: 15%">
+    <col style="width: 40%">
+    <col style="width: 10%">
+    <col style="width: 15%">
+    <col style="width: 10%">
+    <col style="width: 5%">
+  </colgroup>
+  <thead>
+  <tr>
+    <th>Date creation</th>
+    <th>CSV Name</th>
+    <th>Status</th>
+    <th>Date Status</th>
+    <th>Imported</th>
+    <th class="actions">Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @albums.each do |album|%>
+  <tr>
+    <td>
+   <%=album.name%>
+   <% if !album.img.nil? %>
+   <%= album.img %>
+
+   <%end%>
+
+   <% if album.img.attached?%>
+    <%= image_tag(image_path(main_app.url_for(album.img)) )%>
+  
+   <%end%>
+  
+   
+ </td>
+ </tr>
+
+  <% end %>
+ 
+ 
+  </tbody>
+</table>

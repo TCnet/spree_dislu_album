@@ -1,0 +1,15 @@
+<%= form_for([:admin, @dislu_album], html: { multipart: true }) do |f| %>
+ 
+  <fieldset class="no-border-top">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+
+  <%= f.field_container :img, class: ['form-group'] do  %>
+    <%= f.label :img, Spree.t('form.dislu_album.new.img') %>
+    <%= f.file_field :img %>
+  <% end %>
+  <div data-hook="buttons" class="form-actions">
+    <%= button Spree.t('actions.create'), 'ok', 'submit', {class: 'btn-success'} %>
+  </div>
+  </fieldset>
+<% end %>

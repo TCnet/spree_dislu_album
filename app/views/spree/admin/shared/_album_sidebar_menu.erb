@@ -1,0 +1,5 @@
+<% if can? :admin, Spree::DisluAlbum %>
+<ul class="nav nav-sidebar border-bottom">
+    <%= tab Spree::DisluAlbum, url: spree.admin_dislu_albums_url, icon: 'picture', label: plural_resource_name(Spree::DisluAlbum) %>
+  </ul>
+<% end %>
