@@ -11,6 +11,11 @@ gem 'spree_backend', github: 'spree/spree', branch: 'master'
 gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: 'master'
 gem 'rails-controller-testing'
 
+gem 'rubyzip', '>= 1.2.1', '< 2.0.0'
+gem 'roo','~> 2.8.0'
+gem 'roo-xls'
+#gem 'spreadsheet'
+
 gem 'rubocop', require: false
 gem 'rubocop-rspec', require: false
 

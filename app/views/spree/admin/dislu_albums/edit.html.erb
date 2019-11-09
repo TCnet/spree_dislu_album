@@ -1,6 +1,6 @@
 <% content_for :page_title do %>
   <%= link_to plural_resource_name(Spree::DisluAlbum), spree.admin_dislu_albums_path %> /
-  <%= Spree.t(:new_dislu_album) %>
+  <%= Spree.t(:edit_dislu_album) %>
 <% end %>
 
 <%= form_for([:admin, @dislu_album], html: { multipart: true }) do |f| %>

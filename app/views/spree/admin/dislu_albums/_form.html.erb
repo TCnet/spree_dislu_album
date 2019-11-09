@@ -1,15 +1,17 @@
-<%= form_for([:admin, @dislu_album], html: { multipart: true }) do |f| %>
- 
-  <fieldset class="no-border-top">
+<%= render partial: 'spree/shared/error_messages', locals: { target: @dislu_album } %>
+<div class="form-group">
+  <%= f.field_container :name do %>
     <%= f.label :name %>
-    <%= f.text_field :name %>
-
-  <%= f.field_container :photos, class: ['form-group'] do  %>
-    <%= f.label :photos, Spree.t('form.dislu_album.new.img') %>
-    <%= f.file_field :photos, multiple: true %>
+    <%= f.text_field :name, class: 'form-control' %>
   <% end %>
-  <div data-hook="buttons" class="form-actions">
-    <%= button Spree.t('actions.create'), 'ok', 'submit', {class: 'btn-success'} %>
-  </div>
-  </fieldset>
-<% end %>
+  <%= f.field_container :csize do %>
+    <%= f.label :csize %>
+    <%= f.text_field :csize, class: 'form-control' %>
+  <% end %>
+
+ <%= f.field_container :photos do %>
+    <%= f.label :photos %>
+    <%= f.file_field :photos, multiple: true ,class: 'form-control' %>
+  <% end %>
+</div>
+

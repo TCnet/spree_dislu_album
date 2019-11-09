@@ -1,5 +1,17 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  hello: "Hello world"
+  activerecord:
+    models:
+      
+    attributes:
+      
+  spree:
+    back_to_dislu_albums_list: Back To Albums List
+    edit_dislu_album: Edit Album
+    new_dislu_album: New Album
+    
+    dislu_album: Album
+    dislu_albums: Albums
+    dislu_import: Import
+    dislu_imports: Imports
+    admin:
+      commission: Commission

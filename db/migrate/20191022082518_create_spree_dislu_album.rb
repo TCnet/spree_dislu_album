@@ -24,7 +24,7 @@ class CreateSpreeDisluAlbum < ActiveRecord::Migration[6.0]
     end
     
     add_index :spree_dislu_albums, :name, unique: true
-    add_index :spree_dislu_albums, :user_id
+    
  
   end
 end
