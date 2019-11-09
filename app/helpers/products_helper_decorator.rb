@@ -1,5 +1,5 @@
 module Spree
-  ProductsHelper.class_eval do
+ module ProductsHelperDecorator
   	def product_bullet_point(product)
       product.bullet_point.tr("\n","|").split('|').map{|x| "<p>"+x+"</p>"}.join
       #description = product.bullet_point.split('/').map{|x| "<p>"+x+"</p>"}.join
@@ -20,3 +20,6 @@ module Spree
     end
   end
 end
+
+
+Spree::ProductsHelper.prepend Spree::ProductsHelperDecorator
