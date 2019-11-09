@@ -14,12 +14,12 @@ module SpreeDisluAlbum
   
     #cause `has_many_attached' for #<Class:0x00007fe9cda26b38> (NoMethodError) 'error when use active_storage so remove
 
-    #config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/lib)
     #initializer 'spree.dislu_album.preferences', before: :load_config_initializers do
     #  Spree::DisluAlbum::Config = Spree::DisluAlbumSetting.new
     #end
 
-    
+    #config.autoload_paths += Dir["#{config.root}/lib"]
 
     def self.activate
       Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
