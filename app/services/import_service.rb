@@ -1,8 +1,10 @@
 class ImportService
-        attr_reader :product, :product_attrs, :variants_attrs, :options_attrs
+        attr_reader :product, :product_attrs, :variants_attrs, :options_attrs, :properties_attrs
         require 'open-uri'
 
         def initialize(product, product_params, options = {})
+          @properties_attrs = product_params.delete(:properties)
+
           @product = product || Spree::Product.new(product_params)
 
           @product_attrs = product_params.to_h
@@ -12,7 +14,8 @@ class ImportService
 
         def create
           if product.save
-            variants_attrs.each do |variant_attribute|
+            set_up_properties
+            variants_attrs.each_with_index do |variant_attribute,index|
               # make sure the product is assigned before the options=
               vatemp = variant_attribute
               #get image url string and delete form variant_attribute
@@ -21,20 +24,25 @@ class ImportService
               va = product.variants.create({ product: product }.merge(variant_attribute))
               set_stock stocks,va
 
-              #set img
-              unless imagesurl.nil? || imagesurl.empty?
-                #create variants images for each variant
-                imagesurl.split.each do |f|
-                  unless f.empty?
-                    fname = File.basename(f)
-                    file = URI.parse(f).open 
-                    vimage = va.images.new
-                    vimage.attachment = { io: file,filename: fname }
-                    vimage.save!
-                  end
-                end
+              last_num="S"
+              if index==0 && !((/-tm$/i) =~ va.sku )
+                last_num = va.sku.scan(/-([a-z]*$)/i).join.upcase
               end
-              #end set img
+
+
+
+              
+
+              conditions = (/-#{last_num}$/i) =~ va.sku || (/-tm$/i) =~ va.sku
+
+
+
+              #set_img
+              if conditions
+                set_img(imagesurl,va)
+              end
+
+              
               #set stock
 
 
@@ -63,6 +71,38 @@ class ImportService
         end
 
         private
+
+        def set_up_properties
+          properties_attrs.each do|f|
+            # product.properties.where(name: f[:property]).first_or_initialize do |p|
+            #   p.presentation = f[:property]
+            #   p.save!
+
+            # end
+            product.set_property(f[:property],f[:value])
+
+          end
+          
+
+        end
+
+        def set_img(imagesurl,variant)
+          #set img
+              unless imagesurl.nil? || imagesurl.empty?
+                #create variants images for each variant
+                imagesurl.split.each do |f|
+                  
+                  unless f.empty?
+                    fname = File.basename(f)
+                    file = URI.parse(f).open 
+                    vimage = variant.images.new
+                    vimage.attachment = { io: file,filename: fname }
+                    vimage.save!
+                  end
+                end
+              end
+              #end set img
+        end
 
         def set_stock(stocks,variant)
           stocks.split(',').each do |f|

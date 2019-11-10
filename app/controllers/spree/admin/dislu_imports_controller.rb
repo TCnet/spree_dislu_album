@@ -33,7 +33,7 @@ module Spree
           end
           #str = AlbumsService.get_title_of_template sheet,' '
         
-          product_params = {}
+          product_params = Hash.new do |h,k| h[k] =[] end
           var_params =Hash.new do |h,k| h[k] =[] end
           import_from_title = config.import_row_from_title
           import_from_parent = import_from_title + 1
@@ -50,10 +50,13 @@ module Spree
 
           mapo.each do |key,value|
              ssvalue = sheet.row(import_from_parent)[value]
+             property ={}
+             shiping_weight =""
+             waist_size = ''
             case key
             when 'item_sku'
               parentsku= ssvalue.to_s
-            when 'list_price'
+            when 'sale_price'
               product_params[:price] = (ssvalue.to_s.empty?) ? "0" : ssvalue
             when 'item_name'
               product_params[:name] = ssvalue.to_s.strip
@@ -70,6 +73,58 @@ module Spree
             when 'bullet_point1','bullet_point2','bullet_point3','bullet_point4','bullet_point5','bullet_point6'
               bullet_point += ssvalue.to_s
               bullet_point += '|'
+
+            when 'country_of_origin'
+              unless ssvalue.nil? || ssvalue.empty?
+                property[:property] ='Country of Origin'
+                property[:value] = ssvalue
+                product_params[:properties] << property
+              end
+
+            when 'brand_name'
+              unless ssvalue.nil? || ssvalue.empty?
+                property[:property] ='Brand'
+                property[:value] = ssvalue
+                product_params[:properties] << property
+              end
+
+            when 'fabric_type'
+              unless ssvalue.nil? || ssvalue.empty?
+                property[:property] ='Fabric Type'
+                property[:value] = ssvalue
+                product_params[:properties] << property
+              end
+            when 'theme'
+              unless ssvalue.nil? || ssvalue.empty?
+                property[:property] ='Theme'
+                property[:value] = ssvalue
+                product_params[:properties] << property
+              end
+            when 'material_type'
+              unless ssvalue.nil? || ssvalue.empty?
+                property[:property] ='Theme'
+                property[:value] = ssvalue
+                product_params[:properties] << property
+              end
+            when 'fit_type'
+              unless ssvalue.nil? || ssvalue.empty?
+                property[:property] ='Fit Type'
+                property[:value] = ssvalue
+                product_params[:properties] << property
+              end
+
+
+            when 'closure_type'
+              unless ssvalue.nil? || ssvalue.empty?
+                property[:property] ='Closure Type'
+                property[:value] = ssvalue
+                product_params[:properties] << property
+              end
+
+
+            
+              
+              
             else
             end
 
@@ -91,6 +146,7 @@ module Spree
           (import_from_va..sheet.last_row).each do |f|
             vatemp = Hash.new do |h,k| h[k] =[] end
             vatimgs = Hash.new do |h,k| h[k] =[] end
+            properties = Hash.new do |h,k| h[k] =[] end
             stocks =""
 
             strimgs=''
@@ -98,13 +154,17 @@ module Spree
               
               ss={}
               
+              
               tempvalue = sheet.row(f)[value]
               case key
               when 'item_sku'
                 vatemp[:sku]= tempvalue
-
+              when 'standard_price'
+                vatemp[:standard_price]= tempvalue
+              when 'list_price'
+                vatemp[:list_price]= tempvalue
               when 'sale_price'
-                vatemp[:cost_price]= tempvalue
+                vatemp[:price]= tempvalue
               when 'main_image_url','other_image_url1','other_image_url2','other_image_url3','other_image_url4','other_image_url5','other_image_url7','other_image_url8'
                 unless tempvalue.nil? || tempvalue.empty?
                   #vatimgs[:images] << tempvalue
@@ -130,10 +190,13 @@ module Spree
                 ss[:name] ='Color'
                 ss[:value] =tempvalue
                 vatemp[:options] << ss
+              
+
               else
               end
               vatemp[:images] = strimgs
               vatemp[:stocks] = stocks.chop
+               
             end
            
            # dds= {name: "ddds"}
@@ -263,6 +326,8 @@ module Spree
           shipping_category = "Shipping By China EUB"
           id = Spree::ShippingCategory.find_or_create_by(name: shipping_category).id
         end
+
+        
 
         def variants_params(parms,variants_key)
           parms.delete(variants_key) || []
