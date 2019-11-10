@@ -90,7 +90,7 @@ module Spree
 
             when 'fabric_type'
               unless ssvalue.nil? || ssvalue.empty?
-                property[:property] ='Fabric Type'
+                property[:property] ='Fabric'
                 property[:value] = ssvalue
                 product_params[:properties] << property
               end
@@ -102,13 +102,13 @@ module Spree
               end
             when 'material_type'
               unless ssvalue.nil? || ssvalue.empty?
-                property[:property] ='Theme'
+                property[:property] ='Material'
                 property[:value] = ssvalue
                 product_params[:properties] << property
               end
             when 'fit_type'
               unless ssvalue.nil? || ssvalue.empty?
-                property[:property] ='Fit Type'
+                property[:property] ='Fit'
                 property[:value] = ssvalue
                 product_params[:properties] << property
               end
@@ -116,7 +116,7 @@ module Spree
 
             when 'closure_type'
               unless ssvalue.nil? || ssvalue.empty?
-                property[:property] ='Closure Type'
+                property[:property] ='Closure'
                 property[:value] = ssvalue
                 product_params[:properties] << property
               end
