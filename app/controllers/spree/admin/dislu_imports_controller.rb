@@ -293,16 +293,27 @@ module Spree
           
           taxonomy = Spree::Taxonomy.where(name: tax_name).first_or_create
 
-          ptaxon = Spree::Taxon.where(name: parent_tax).first_or_initialize 
-          ptaxon.parent = taxonomy.root
-          ptaxon.taxonomy = taxonomy
-          ptaxon.save!
+
+
+
+          ptaxon = Spree::Taxon.where(name: parent_tax).first_or_initialize do |ptaxon|
+             ptaxon.parent = taxonomy.root
+             ptaxon.taxonomy = taxonomy
+             ptaxon.save!
+          end
+
           
          
-          ctaxon = Spree::Taxon.where(name: child_tax).first_or_initialize 
-          ctaxon.parent = ptaxon
-          ctaxon.taxonomy = taxonomy
-          ctaxon.save!
+
+          ctaxon = Spree::Taxon.where(name: child_tax).first_or_initialize do |ctaxon|
+          
+            if(parent_tax!= child_tax)
+              ctaxon.parent = ptaxon
+              ctaxon.taxonomy = taxonomy
+              ctaxon.save!
+            end
+          end
+          
           
           
           unless product.taxons.include?(ctaxon)
