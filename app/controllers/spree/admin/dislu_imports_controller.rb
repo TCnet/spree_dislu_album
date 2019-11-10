@@ -223,7 +223,7 @@ module Spree
             variants_attrs: parms,
             options_attrs: option_types_params }
          
-          sp = p parms
+          #sp = p parms
 
           #set taxnonmy
 
@@ -234,18 +234,8 @@ module Spree
           
           set_product_tax tax_name,parent_tax,child_tax,@product
          
-
-
-
-
-
-
-
          
-
-         
-      		#flash[:notice] = Spree.t('dislu_importdata')
-          flash[:notice]  = sp
+      		flash[:notice] = Spree.t('dislu_importdata')
       		redirect_to admin_dislu_imports_path
 
       	end
