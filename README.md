@@ -6,7 +6,7 @@ Introduction goes here.
 
 1. Add this extension to your Gemfile with this line:
   ```ruby
-  gem 'spree_dislu_album', github: '[your-github-handle]/spree_dislu_album'
+  gem 'spree_dislu_album', github: 'TCnet/spree_dislu_album'
   ```
 
 2. Install the gem using Bundler:
