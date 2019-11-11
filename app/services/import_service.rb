@@ -25,15 +25,15 @@ class ImportService
               set_stock stocks,va
 
               last_num="S"
-              if index==0 && !((/-tm$/i) =~ va.sku )
-                last_num = va.sku.scan(/-([a-z]*$)/i).join.upcase
+              if index==0 
+                last_num = va.sku.scan(/-(.*$)/i).join.upcase
               end
 
 
 
               
 
-              conditions = (/-#{last_num}$/i) =~ va.sku || (/-tm$/i) =~ va.sku
+              conditions = (/-#{last_num}$/i) =~ va.sku 
 
 
 
