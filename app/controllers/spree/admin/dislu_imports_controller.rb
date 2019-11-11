@@ -49,7 +49,7 @@ module Spree
           bullet_point =''
 
           mapo.each do |key,value|
-             ssvalue = sheet.row(import_from_parent)[value]
+             ssvalue = sheet.row(import_from_parent)[value].to_s
              property ={}
              shiping_weight =""
              waist_size = ''
@@ -59,7 +59,7 @@ module Spree
             when 'sale_price'
               product_params[:price] = (ssvalue.to_s.empty?) ? "0" : ssvalue
             when 'item_name'
-              product_params[:name] = ssvalue.to_s.strip
+              product_params[:name] = ssvalue.strip
             when 'product_description'
               product_params[:description] = ssvalue
             when 'sale_from_date'
@@ -71,43 +71,43 @@ module Spree
             when 'department_name'
               tax_name = ssvalue.capitalize
             when 'bullet_point1','bullet_point2','bullet_point3','bullet_point4','bullet_point5','bullet_point6'
-              bullet_point += ssvalue.to_s
+              bullet_point += ssvalue
               bullet_point += '|'
 
             when 'country_of_origin'
-              unless ssvalue.nil? || ssvalue.empty?
+              unless  ssvalue.empty?
                 property[:property] ='Country of Origin'
                 property[:value] = ssvalue
                 product_params[:properties] << property
               end
 
             when 'brand_name'
-              unless ssvalue.nil? || ssvalue.empty?
+              unless  ssvalue.empty?
                 property[:property] ='Brand'
                 property[:value] = ssvalue
                 product_params[:properties] << property
               end
 
             when 'fabric_type'
-              unless ssvalue.nil? || ssvalue.empty?
+              unless  ssvalue.empty?
                 property[:property] ='Fabric'
                 property[:value] = ssvalue
                 product_params[:properties] << property
               end
             when 'theme'
-              unless ssvalue.nil? || ssvalue.empty?
+              unless  ssvalue.empty?
                 property[:property] ='Theme'
                 property[:value] = ssvalue
                 product_params[:properties] << property
               end
             when 'material_type'
-              unless ssvalue.nil? || ssvalue.empty?
+              unless  ssvalue.empty?
                 property[:property] ='Material'
                 property[:value] = ssvalue
                 product_params[:properties] << property
               end
             when 'fit_type'
-              unless ssvalue.nil? || ssvalue.empty?
+              unless  ssvalue.empty?
                 property[:property] ='Fit'
                 property[:value] = ssvalue
                 product_params[:properties] << property
@@ -115,7 +115,7 @@ module Spree
 
 
             when 'closure_type'
-              unless ssvalue.nil? || ssvalue.empty?
+              unless ssvalue.empty?
                 property[:property] ='Closure'
                 property[:value] = ssvalue
                 product_params[:properties] << property
@@ -290,6 +290,18 @@ module Spree
         def set_product_tax(tax_name,parent_tax,child_tax,product)
           #Spree::Taxon.where(name: "jeans").first
           # "mother" "child" 'gchild'
+          #set default taxon if name is missing
+          if tax_name.empty?
+            tax_name = "Categories"
+          end
+          if child_tax.empty?
+            child_tax = "All"
+          end
+
+          if parent_tax.empty?
+            parent_tax = child_tax
+          end
+
           
           taxonomy = Spree::Taxonomy.where(name: tax_name).first_or_create
 
