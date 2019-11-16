@@ -15,6 +15,8 @@ class ImportService
         def create
           if product.save
             set_up_properties
+            last_num="S"
+            
             variants_attrs.each_with_index do |variant_attribute,index|
               # make sure the product is assigned before the options=
               vatemp = variant_attribute
@@ -24,7 +26,7 @@ class ImportService
               va = product.variants.create({ product: product }.merge(variant_attribute))
               set_stock stocks,va
 
-              last_num="S"
+             
               if index==0 
                 last_num = va.sku.scan(/-(.*$)/i).join.upcase
               end
@@ -37,7 +39,7 @@ class ImportService
 
 
 
-              #set_img
+              #set_img on the frist variant for every color items
               if conditions
                 set_img(imagesurl,va)
               end
