@@ -42,5 +42,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'webdrivers', '~> 4.0.0'
+
+  s.add_development_dependency 'rubyzip', '>= 1.2.1', '< 2.0.0'
+  s.add_development_dependency 'roo', '~> 2.8.0'
+  s.add_development_dependency 'roo-xls'
+
   
 end

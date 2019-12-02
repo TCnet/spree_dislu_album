@@ -1,9 +1,4 @@
 en:
-  activerecord:
-    models:
-      
-    attributes:
-      
   spree:
     back_to_dislu_albums_list: Back To Albums List
     edit_dislu_album: Edit Album
@@ -13,5 +8,4 @@ en:
     dislu_albums: Albums
     dislu_import: Import
     dislu_imports: Imports
-    admin:
-      commission: Commission
+    
